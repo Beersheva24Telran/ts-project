@@ -19,6 +19,10 @@ const arr3: number[][] = [];
 function fun(a:number[][]): void {
   
 }
-type Person = {id: number, name: string};
+type Person = {id: number, name: string, age?: number, address?: {city:string, street: string}};
 
 const person: Person = {id: 123, name: "Vasya"};
+person.age && person.age++;
+person.address?.street //expression has union type string | undefined
+person.address && person.address.city; //expression has type string
+person.address!.city; //expression has type string
