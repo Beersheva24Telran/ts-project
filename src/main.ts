@@ -18,6 +18,9 @@ const kvp: KeyValuePair<string, number> = {key: "abc", value: 10};
 function findById<T extends {id: number}>(array: T[], id: number):T | undefined {
   return array.find(item => item.id === id);
 }
-//TODO
+
 //write universal function "findByField" - allows finding either one or several or none objects having
 //a given value of a given field
+function findByField<T>(array: T[], field: keyof T, value: unknown): T[] {
+    return array.filter(item => item[field] === value);
+}
