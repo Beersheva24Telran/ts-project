@@ -10,17 +10,29 @@ type Person = {
     }
     education: string
 }
-type ReadOnlyType<T> = {
-    readonly [K in keyof T]: T[K]
+function update<T> (obj: T, updater: Partial<T>): void {
+    for(let key in updater) {
+             obj[key] = updater[key]!
+    }
 }
-const person1: Person = {
-    id: 123, age: 25, name: "Vasya", education: "Engineer"
+function getOccurrencesObj(array: (string|number)[]): Record<string|number, number>{
+     return array.reduce((acc: Record<string|number, number>, cur) => ({...acc, [cur]:
+         acc[cur] ? ++acc[cur] : 1}), {})
 }
-const person2: ReadOnlyType<Person> = {
-    id: 123, age: 25, name: "Vasya", education: "Doctor"
+function isAnagram(str1: string, anagram: string): boolean {
+    let res: boolean = false;
+    str1 = str1.toLowerCase();
+    anagram = anagram.toLowerCase();
+    if (str1.length === anagram.length && str1 !== anagram) {
+        const letterOccurences: Record<string, number> = getOccurrencesObj(Array.from(str1));
+        res = Array.from(anagram).every(letter => --letterOccurences[letter] > -1)
+    }
+    return res;
 }
-person1.age = 26;
-//person2.age = 26; error because readonly types
+console.log(isAnagram("hello", "olleh"))
+console.log(isAnagram("hello", "olllh"))
+console.log(getOccurrencesObj([1,2,3,1,1,1,2]));
+console.log(getOccurrencesObj(["lmn", "lmn"]))
 
 
 
